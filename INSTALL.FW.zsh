@@ -7,7 +7,7 @@ NOTIFY (){
 
 EXE="${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}"
 
-if [[ ! -x "$EXE" || ! $(otool -L "$EXE" 2> /dev/null) ]]; then NOTIFY "otool verify failed!" 99; fi
+[[ ! -x "$EXE" || ! $(otool -L "$EXE" 2> /dev/null) ]] && NOTIFY "otool verify failed!" 99
 
 
 GO_MAC () {
