@@ -23,12 +23,11 @@ GO_SIM_FWK() {
   mkdir -p "$SIM_FWKS"
   cp -fr "$CODESIGNING_FOLDER_PATH" "$SIM_FWKS"
 }
-if 	 [ "${EFFECTIVE_PLATFORM_NAME}" =~ "mac" ]; 	then GO_MAC
-elif [ $WRAPPER_EXTENSION != "framework" ]; 			then GO_DEVICE_APP
-elif [ $EFFECTIVE_PLATFORM_NAME =~ "simulator" ]; then
-	if [ "${WRAPPER_EXTENSION}" == "framework" ];   then GO_SIM_FWK; fi
-elif [ $EFFECTIVE_PLATFORM_NAME != -iphoneos ];   then exit 0
-else 
+[[ "${EFFECTIVE_PLATFORM_NAME}" =~ "mac" ]] 	&& GO_MAC 			 || \
+[[ $WRAPPER_EXTENSION != "framework" ]] 			&& GO_DEVICE_APP || \
+[[ $EFFECTIVE_PLATFORM_NAME =~ "simulator"  											\
+&&   "${WRAPPER_EXTENSION}" == "framework" ]] && GO_SIM_FWK    || \
+[[ $EFFECTIVE_PLATFORM_NAME != -iphoneos ]]   && exit 0        || {
 
      HASH=$(md5 -q "$EXE")
   HASHKEY="$TARGET_NAME${EFFECTIVE_PLATFORM_NAME:--$PLATFORM_NAME}"
@@ -47,7 +46,7 @@ scp -r  "$CODESIGNING_FOLDER_PATH" 6:/Library/Frameworks 2>&1 | head -n1 | sed '
 [[ $? == 0 ]] && { say "installed ${TARGET_NAME/#AtoZ/} framework on device" } \
               || say "copy to device failed for ${TARGET_NAME/#AtoZ/}. $RES"
 
-fi
+}
 
 #buildPlist="${PRODUCT_NAME}-Info.plist"
 ## Get the existing buildVersion and buildNumber values from the buildPlist
