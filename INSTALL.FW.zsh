@@ -3,7 +3,7 @@ NOTIFY() { terminal-notifier -title "$TARGET_NAME" -message $1; exit $2 }
 
 [[ -x "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && {
     
-    [[ $(otool -L "$EXE") == 0 }} || NOTIFY "otool verify failed!" 99
+    if ! otool -L "$EXE"; then NOTIFY "otool verify failed!" 99; fi
 }
 
 GO_MAC () {
