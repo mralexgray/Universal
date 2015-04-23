@@ -43,7 +43,7 @@ GO_SIM_FWK() {
 [[ $WRAPPER_EXTENSION != "framework" ]]       && GO_DEVICE_APP || \
 [[ $EFFECTIVE_PLATFORM_NAME =~ "simulator"  				      \
 &&   "${WRAPPER_EXTENSION}" == "framework" ]] && GO_SIM_FWK    || \
-[[ $EFFECTIVE_PLATFORM_NAME != -iphoneos ]]   && NOTIFY "dunno what to do" 0 || {
+[[ $EFFECTIVE_PLATFORM_NAME != -iphoneos ]]   && { NOTIFY "dunno what to do" 0; } || {
 
      HASH=$(md5 -q "$EXE")
   HASHKEY="$TARGET_NAME${EFFECTIVE_PLATFORM_NAME:--$PLATFORM_NAME}"
