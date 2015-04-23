@@ -27,7 +27,8 @@
 [[ ! "${EFFECTIVE_PLATFORM_NAME}" == "iphonesimulator" ]] && \
 [[ "${WRAPPER_EXTENSION}" == "framework" ]] && {
 
-  mkdir -p "${SIM_FWKS=${USER_LIBRARY_DIR}/Frameworks-Simulator}"
+  SIM_FWKS="/Users/`whoami`/Library/Frameworks-Simulator"
+  mkdir -p "$SIM_FWKS"
   cp -fr "$CODESIGNING_FOLDER_PATH" "$SIM_FWKS"
 }
 
