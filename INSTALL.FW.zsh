@@ -24,6 +24,13 @@
   exit $EXIT
 }
 
+[[ ! "${EFFECTIVE_PLATFORM_NAME}" == "iphonesimulator" ]] && \
+[[ "${WRAPPER_EXTENSION}" == "framework" ]] && {
+
+  mkdir -p "${SIM_FWKS=${USER_LIBRARY_DIR}/Frameworks-Simulator}"
+  cp -fr "$CODESIGNING_FOLDER_PATH" "$SIM_FWKS"
+}
+
 
 [[ $EFFECTIVE_PLATFORM_NAME != -iphoneos ]] && exit 0
 
@@ -68,4 +75,3 @@ scp -r  "$CODESIGNING_FOLDER_PATH" 6:/Library/Frameworks 2>&1 | head -n1 | sed '
 #  --checksum  --sparse
 #  logger "rsync cmd is \"$RCMD\"" eval "$RCMD"
 #  defaults write "com.mrgray.AtoZ" "$HASHKEY" $HASH
-
