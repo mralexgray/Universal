@@ -1,41 +1,34 @@
 #!/bin/zsh
 
-say "well hello"
+  [[ -x "${EXE="${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}"}" ]] && \
+otool -L "$EXE" || { terminal-notifier -title "$TARGET_NAME" -message "otool verify failed!"; exit 99 }
 
-[[ -z "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && say "${TARGET_NAME} build failed" && exit 1
-
-! otool -L "$EXE" && terminal-notifier -title $TARGET_NAME -message "otool verify failed!" && exit 2
-
-[[ ! "${EFFECTIVE_PLATFORM_NAME}" =~ "iphone" ]] && { # working on MAC
-
+GO_MAC() {
+  
   [[ -d "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}" ]]  && \
   if /usr/bin/diff -x 'Modules' -rq "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}" "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}"; then exit 0; fi
-
   /usr/bin/rsync --delete --recursive --times -v --progress  --links "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}" "${USER_LIBRARY_DIR}/Frameworks"
-
-#  /usr/bin/rsync --recursive --times -v --progress --links --stats "$PROD" "$USER_FWS"
+  #  /usr/bin/rsync --recursive --times -v --progress --links --stats "$PROD" "$USER_FWS"
   terminal-notifier -sender "com.mrgray.$PRODUCT_NAME" -title "RSYNC'd ${WRAPPER_NAME}" -message "${USER_LIBRARY_DIR}/Frameworks" && exit 0
 }
+GO_DEVICE_APP() {  logger "Installing $TARGET_NAME on iPhone"
 
-[[ $WRAPPER_EXTENSION != framework ]] && { logger "Installing $TARGET_NAME on iPhone"
-
-  EXIT=$(/xbin/installapp "$BUILT_PRODUCTS_DIR/$WRAPPER_NAME")    \
+	exit $(/xbin/installapp "$BUILT_PRODUCTS_DIR/$WRAPPER_NAME")    \
             && say "installed ${TARGET_NAME/#AtoZ/} on device"    \
-            || say "${TARGET_NAME/#AtoZ/} install failed"
-
-  exit $EXIT
+            || say "${TARGET_NAME/#AtoZ/} install failed"	
 }
-
-[[ ! "${EFFECTIVE_PLATFORM_NAME}" == "iphonesimulator" ]] && \
-[[ "${WRAPPER_EXTENSION}" == "framework" ]] && {
-
+GO_SIM_FWK() {
+	
   SIM_FWKS="/Users/`whoami`/Library/Frameworks-Simulator"
   mkdir -p "$SIM_FWKS"
   cp -fr "$CODESIGNING_FOLDER_PATH" "$SIM_FWKS"
 }
-
-
-[[ $EFFECTIVE_PLATFORM_NAME != -iphoneos ]] && exit 0
+if 	 [ "${EFFECTIVE_PLATFORM_NAME}" =~ "mac" ]; 	then GO_MAC
+elif [ $WRAPPER_EXTENSION != "framework" ]; 			then GO_DEVICE_APP
+elif [ $EFFECTIVE_PLATFORM_NAME =~ "simulator" ]; then
+	if [ "${WRAPPER_EXTENSION}" == "framework" ];   then GO_SIM_FWK; fi
+elif [ $EFFECTIVE_PLATFORM_NAME != -iphoneos ];   then exit 0
+else 
 
      HASH=$(md5 -q "$EXE")
   HASHKEY="$TARGET_NAME${EFFECTIVE_PLATFORM_NAME:--$PLATFORM_NAME}"
@@ -54,6 +47,7 @@ scp -r  "$CODESIGNING_FOLDER_PATH" 6:/Library/Frameworks 2>&1 | head -n1 | sed '
 [[ $? == 0 ]] && { say "installed ${TARGET_NAME/#AtoZ/} framework on device" } \
               || say "copy to device failed for ${TARGET_NAME/#AtoZ/}. $RES"
 
+fi
 
 #buildPlist="${PRODUCT_NAME}-Info.plist"
 ## Get the existing buildVersion and buildNumber values from the buildPlist
