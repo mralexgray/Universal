@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 NOTIFY() {
     terminal-notifier -title "$TARGET_NAME" -message "$1"
     if [ $# > 2 ]; then exit $2; fi
