@@ -1,5 +1,6 @@
 #!/bin/bash
 
+env
 
 NOTIFY() {
     terminal-notifier -title "$TARGET_NAME" -message "$1"
