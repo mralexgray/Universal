@@ -6,8 +6,10 @@ NOTIFY() { terminal-notifier -title "$TARGET_NAME" -message $1; exit $2 }
 
 GO_MAC () {
   
-  [[ -d "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}"  && \
-  /usr/bin/diff -x 'Modules' -rq "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}" "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}" ]] && NOTIFY "skipping install" 0
+  [[ -z "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}" ]] && NOTIFY "product isnt there" 88
+
+  ! /usr/bin/diff -x 'Modules' -rq "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}" \
+                                   "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}"; then NOTIFY "skipping install" 0; fi
   
   /usr/bin/rsync --delete --recursive --times -v --progress  --links "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}" "${USER_LIBRARY_DIR}/Frameworks"
   #  /usr/bin/rsync --recursive --times -v --progress --links --stats "$PROD" "$USER_FWS"
