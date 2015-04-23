@@ -1,6 +1,5 @@
 #!/bin/bash
 
-env
 
 NOTIFY() {
     terminal-notifier -title "$TARGET_NAME" -message "$1"
@@ -10,7 +9,7 @@ NOTIFY() {
 [[ -z "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && say whatthefuck
 
 [[ ! -x "$EXE" ]] && NOTIFY "WTF" 122
-if ! otool -L "$EXE" 2> /dev/null; then NOTIFY "otool verify failed!" 99; fi
+if ! otool -L "${EXE:-/dev/null}"; then NOTIFY "otool verify failed!" 99; fi
 
 
 GO_MAC () {
