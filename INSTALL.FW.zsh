@@ -1,3 +1,4 @@
+#!/bin/bash
 
 NOTIFY() { terminal-notifier -title "$TARGET_NAME" -message $1; [[ $# -gt 2 ]] && exit $2 }
 
