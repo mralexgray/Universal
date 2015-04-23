@@ -3,7 +3,7 @@ NOTIFY() { terminal-notifier -title "$TARGET_NAME" -message $1; [[ $# -gt 2 ]] &
 
 EXE="${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}"
 
-if [[ ! -x "$EXE" || ! otool -L "$EXE" 2> /dev/null ]]; then NOTIFY "otool verify failed!" 99; fi
+if [[ ! -x "$EXE" || ! $(otool -L "$EXE" 2> /dev/null) ]]; then NOTIFY "otool verify failed!" 99; fi
 
 
 GO_MAC () {
@@ -25,10 +25,9 @@ GO_DEVICE_APP() {  logger "Installing $TARGET_NAME on iPhone"
             || say "${TARGET_NAME/#AtoZ/} install failed"	
 }
 GO_SIM_FWK() {
-	
-  SIM_FWKS="/Users/$(whoami)/Library/Frameworks-Simulator"
-  mkdir -p "$SIM_FWKS"
-  cp -fr "$CODESIGNING_FOLDER_PATH" "$SIM_FWKS"
+    
+  mkdir -p "${SIM_FWKS=/Users/$(whoami)/Library/Frameworks-Simulator}"
+  cp -fr "${CODESIGNING_FOLDER_PATH}" "$SIM_FWKS"
   NOTIFY "installed into Simulator Frameworks" 0
 }
 
