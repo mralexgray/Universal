@@ -47,7 +47,7 @@ GO_SIM_FWK() {
 
      HASH=$(md5 -q "$EXE")
   HASHKEY="$TARGET_NAME${EFFECTIVE_PLATFORM_NAME:--$PLATFORM_NAME}"
-SAVEDHASH="$(defaults read com.mrgray.AtoZ $HASHKEY)" 2> /dev/null # check saved hash
+SAVEDHASH="$(defaults read com.mrgray.AtoZ $HASHKEY)" 2> /dev/null; # check saved hash
 
 [[ "$HASH" == "$SAVEDHASH" ]] && say "$TARGET_NAME hashes match!" && exit 0
 
