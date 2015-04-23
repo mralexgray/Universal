@@ -2,7 +2,7 @@
 
 NOTIFY (){
     terminal-notifier -title "$TARGET_NAME" -message $1 
-    [[ $# -gt 2 ]] && exit $2 
+    if [ $# -gt 2 ]; then exit $2; fi
 }
 
 EXE="${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}"
