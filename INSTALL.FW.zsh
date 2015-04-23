@@ -1,4 +1,3 @@
-#!/bin/zsh
 
 NOTIFY() { terminal-notifier -title "$TARGET_NAME" -message $1; exit $2 }
 
