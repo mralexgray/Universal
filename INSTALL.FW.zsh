@@ -8,7 +8,7 @@ NOTIFY() {
 
 [[ -z "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && say whatthefuck
 
-[[ ! -x "$EXE" ]] && NOTIFY "WTF" 122
+[[ ! -x "$EXE" ]] && NOTIFY "WTF: EXE= $EXE" 122
 if ! otool -L "${EXE:-/dev/null}"; then NOTIFY "otool verify failed!" 99; fi
 
 
