@@ -58,9 +58,8 @@ logger "Installing TARGET_NAME Framework onto device."
 
 scp -r  "$CODESIGNING_FOLDER_PATH" 6:/Library/Frameworks 2>&1 | head -n1 | sed 's/ssh://;s/6\.local.*//g'
 
-[[ $? == 0 ]] && { say "installed ${TARGET_NAME/#AtoZ/} framework on device"; } \
+[[ $? == 0 ]] && say "installed ${TARGET_NAME/#AtoZ/} framework on device"      \
               || say "copy to device failed for ${TARGET_NAME/#AtoZ/}. $RES"
-
 }
 
 #buildPlist="${PRODUCT_NAME}-Info.plist"
