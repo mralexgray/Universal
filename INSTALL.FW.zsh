@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+say "well hello"
+
 [[ -z "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && say "${TARGET_NAME} build failed" && exit 1
 
 ! otool -L "$EXE" && terminal-notifier -title $TARGET_NAME -message "otool verify failed!" && exit 2
