@@ -5,7 +5,7 @@ NOTIFY() {
     if [ $# > 2 ]; then exit $2; fi
 }
 
-EXE="${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}"
+[[ -z "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && say whatthefuck
 
 [[ ! -x "$EXE" || ! $(otool -L "$EXE" 2> /dev/null) ]] && NOTIFY "otool verify failed!" 99
 
