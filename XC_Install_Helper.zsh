@@ -6,9 +6,9 @@ NOTIFY() {
     if [ $# > 2 ]; then exit $2; fi
 }
 
-GO_MAC () {
+MAC_FW () {
   
-  [[ -z "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}" ]] && NOTIFY "product isnt there" 88
+  [[ -z "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}" ]] && NOTIFY "product isnt there"
 
   if ! /usr/bin/diff -x 'Modules' -rq "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}" \
                                    "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}"
