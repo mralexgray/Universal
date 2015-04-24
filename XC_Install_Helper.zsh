@@ -1,5 +1,12 @@
 #!/bin/sh
 
+## RPC? -> 1 - GID, ie. 9fc0e1f531df38aed349 -> 2 - Script Name
+
+# [[ -f "${X=/tmp/${SCRIPT_INPUT_FILE_1}}" ]] && rm -f $X
+# if curl -s "https://gist.githubusercontent.com/mralexgray/${SCRIPT_INPUT_FILE_0}/raw/${SCRIPT_INPUT_FILE_1}" -o "$X"; then
+# chmod +x "$X" && source "$X"
+
+
 NOTIFY() { # say "notify with $# args, exit status will be $2"
     
     [[ $(type -f terminal-notifier) ]]  &&  terminal-notifier -title "$TARGET_NAME" -message "$1" || say "$1"
