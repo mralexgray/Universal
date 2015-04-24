@@ -36,7 +36,7 @@ GO_SIM_FWK() {
 [[ ! -x "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && NOTIFY "Hmm, missing executable:$EXE"  36
 [[ ! $(otool -L "${EXE:-/dev/null}") ]]                       && NOTIFY "otool verify failed!"          37
 
-[[ "${EFFECTIVE_PLATFORM_NAME}" =~ "mac"       ]]   && GO_MAC        || \
+[[ "${EFFECTIVE_PLATFORM_NAME}" =~ "mac"       ]]   && MAC_FW        || \
 [[          $WRAPPER_EXTENSION  != "framework" ]]   && GO_DEVICE_APP || \
 [[    $EFFECTIVE_PLATFORM_NAME  =~ "simulator"      &&   
          "${WRAPPER_EXTENSION}" == "framework" ]]   && GO_SIM_FWK    || \
