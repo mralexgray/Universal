@@ -1,0 +1,99 @@
+
+
+
+//SUPPORTED_PLATFORMS      = iphoneos iphonesimulator macosx
+
+//VALID_ARCHS[sdk=macosx*] = x86_64
+
+// PACKAGING
+                                                ARCHS = $(ARCHS_STANDARD)
+                                         PRODUCT_NAME = $(TARGET_NAME)
+                                 COMBINE_HIDPI_IMAGES = YES
+//                      CODE_SIGN_IDENTITY[sdk=macosx*] = MrGray.com
+//                      CODE_SIGN_IDENTITY[sdk=iphone*] = -
+
+// COMPILING
+//                                        VALID_ARCHS = x86_64
+//                                            SDKROOT = macosx
+//                                SUPPORTED_PLATFORMS = macosx
+//                           MACOSX_DEPLOYMENT_TARGET = 10.8
+                                     ONLY_ACTIVE_ARCH = YES
+                                CLANG_ENABLE_OBJC_ARC = YES
+                              GCC_C_LANGUAGE_STANDARD = c11
+//                                   GCC_DYNAMIC_NO_PIC = -mdynamic-no-pic
+                                     COPY_PHASE_STRIP = NO
+                                  DEAD_CODE_STRIPPING = NO
+                               GCC_OPTIMIZATION_LEVEL = 0
+
+// LINKING
+                                 CLANG_ENABLE_MODULES = YES
+//CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES
+
+
+//                                        OTHER_LDFLAGS = -ObjC -all_load $(OTHER_LDFLAGS)
+                               FRAMEWORK_SEARCH_PATHS = $(USER_LIBRARY_DIR)/Frameworks
+                              LD_RUNPATH_SEARCH_PATHS = $(USER_LIBRARY_DIR)/Frameworks
+                             ALWAYS_SEARCH_USER_PATHS = NO
+
+GCC_INLINES_ARE_PRIVATE_EXTERN = NO
+
+//RELAX
+
+GCC_WARN_CHECK_SWITCH_STATEMENTS          = NO  // [YES] switch on enum value, all possibilities are not accounted for
+
+// STRESSOUT
+
+CLANG_WARN__DUPLICATE_METHOD_MATCH        = YES // [NO] Warn if declare same method more than 1nce in interfce.
+GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL        = YES
+GCC_WARN_UNUSED_LABEL                     = YES // [NO]  labels that are unused
+GCC_WARN_UNDECLARED_SELECTOR              = YES // [NO]
+
+GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES // [NO] missing fields from structure initializers (if designated initializers aren't used)
+GCC_WARN_ABOUT_RETURN_TYPE                = YES // [NO] value ret from a function/method/block does not match its ret type
+
+GCC_WARN_UNINITIALIZED_AUTOS              = YES // [NO] variables that are not initialized before used
+GCC_WARN_UNUSED_VARIABLE                  = YES //       variables that are never used
+
+
+// OTHER
+
+WARNING_CFLAGS = -Wno-implicit-int -Wno-incomplete-umbrella -Wno-pointer-sign -Wundeclared-selector -Wbitwise-op-parentheses -Wno-deprecated -Wno-implicit-retain-self -Wno-ambiguous-macro -Wno-gcc-compat -Wno-objc-property-no-attribute -Wno-arc-repeated-use-of-weak -Wno-receiver-is-weak -Wno-selector -Wno-property-attribute-mismatch -Wno-objc-property-synthesis -Wno-format -Wno-shorten-64-to-32
+
+ENABLE_STRICT_OBJC_MSGSEND                = NO
+
+
+                DYLIB_INSTALL_NAME_BASE = @rpath
+//GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES
+//           GCC_PRECOMPILE_PREFIX_HEADER = YES
+
+
+                      VERSIONING_SYSTEM = apple-generic
+            DYLIB_COMPATIBILITY_VERSION = 1
+                  DYLIB_CURRENT_VERSION = 1
+
+               ALWAYS_SEARCH_USER_PATHS = NO
+                 GCC_OPTIMIZATION_LEVEL = 0
+
+
+                      WRAPPER_EXTENSION = framework
+                      FRAMEWORK_VERSION = A
+                      DEFINES_MODULE    = YES
+
+
+//SDKROOT[sdk=iphoneos*] = iphoneos
+//SDKROOT[sdk=iphonesimulator*] = iphoneos
+//
+////SUPPORTED_PLATFORMS[sdk=iphone*]  = iphoneos iphonesimulator
+//
+//VALID_ARCHS[sdk=iphonesimulator*] = x86_64
+//VALID_ARCHS[sdk=iphoneos*] = armv7 armv7s arm64
+//
+//CODE_SIGN_IDENTITY[sdk=iphonesimulator*] = -
+//CODE_SIGN_IDENTITY[sdk=iphoneos*] = -
+//
+//FRAMEWORK_SEARCH_PATHS[sdk=iphone*]  = $(CONFIGURATION_BUILD_DIR) // $(USER_FWKS)
+//FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*] = $(THEOS)/Frameworks $(FRAMEWORK_SEARCH_PATHS)
+//FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*] = $(THEOS)/Frameworks $(FRAMEWORK_SEARCH_PATHS)
+
+// LD_RUNPATH_SEARCH_PATHS[sdk=iphone*]  = @loader_path/Frameworks @executable_path/Frameworks $(inherited)
+
