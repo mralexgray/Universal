@@ -15,7 +15,7 @@ MAC_FW () {
 #	NOTIFY "skipping install" 0
 #} || {
 	
-		/usr/bin/rsync --delete --recursive --times -v --progress  --links "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR"
+		/usr/bin/rsync --recursive --times -v --progress  --links "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR"
   
       NOTIFY "are SYNCed ${WRAPPED_NAME} status $?" $? 
  #  }
