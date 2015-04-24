@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 ## RPC? -> 1 - GID, ie. 9fc0e1f531df38aed349 -> 2 - Script Name
 
@@ -9,7 +9,7 @@
 
 NOTIFY() { # say "notify with $# args, exit status will be $2"
     
-    [[ $(type -f terminal-notifier) ]]  &&  terminal-notifier -title "$TARGET_NAME" -message "$1" || say "$1"
+    type -f terminal-notifier  &&  terminal-notifier -title "$TARGET_NAME" -message "$1" || say "$1"
 
     [[ "$#" == "2" ]] && exit $2
 }
