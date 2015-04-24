@@ -1,9 +1,8 @@
-#!/bin/zsh
 
 NOTIFY() {
     
-    [[ $(type -f terminal-notifier) ]] && terminal-notifier -title "$TARGET_NAME" -message "$1" || say "$1"
-    if [ $# > 2 ]; then exit $2; fi
+    [[ $(type -f terminal-notifier) ]] && { terminal-notifier -title "$TARGET_NAME" -message "$1"; } || say "$1"
+    [[ $# > 2 ]] && exit $2
 }
 
 MAC_FW () {
