@@ -1,16 +1,10 @@
-#!/bin/bash
-
+#!/bin/zsh
 
 NOTIFY() {
-    terminal-notifier -title "$TARGET_NAME" -message "$1"
+    
+    [[ $(type -f terminal-notifier) ]] && terminal-notifier -title "$TARGET_NAME" -message "$1" || say "$1"
     if [ $# > 2 ]; then exit $2; fi
 }
-
-[[ -z "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && say whatthefuck
-
-[[ ! -x "$EXE" ]] && NOTIFY "WTF: EXE= $EXE" 122
-if ! otool -L "${EXE:-/dev/null}"; then NOTIFY "otool verify failed!" 99; fi
-
 
 GO_MAC () {
   
@@ -39,27 +33,29 @@ GO_SIM_FWK() {
   NOTIFY "installed into Simulator Frameworks" 0
 }
 
-[[ "${EFFECTIVE_PLATFORM_NAME}" =~ "mac" ]]   && GO_MAC        || \
-[[ $WRAPPER_EXTENSION != "framework" ]]       && GO_DEVICE_APP || \
-[[ $EFFECTIVE_PLATFORM_NAME =~ "simulator"  				      \
-&&   "${WRAPPER_EXTENSION}" == "framework" ]] && GO_SIM_FWK    || \
-[[ $EFFECTIVE_PLATFORM_NAME != -iphoneos ]]   && { NOTIFY "dunno what to do" 0; } || {
+[[ ! -x "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && NOTIFY "Hmm, missing executable:$EXE"  36
+[[ ! $(otool -L "${EXE:-/dev/null}") ]]                       && NOTIFY "otool verify failed!"          37
+
+[[ "${EFFECTIVE_PLATFORM_NAME}" =~ "mac"       ]]   && GO_MAC        || \
+[[          $WRAPPER_EXTENSION  != "framework" ]]   && GO_DEVICE_APP || \
+[[    $EFFECTIVE_PLATFORM_NAME  =~ "simulator"      &&   
+         "${WRAPPER_EXTENSION}" == "framework" ]]   && GO_SIM_FWK    || \
+[[    $EFFECTIVE_PLATFORM_NAME  != "-iphoneos" ]]   && NOTIFY "dunno what to do" 0
 
      HASH=$(md5 -q "$EXE")
   HASHKEY="$TARGET_NAME${EFFECTIVE_PLATFORM_NAME:--$PLATFORM_NAME}"
 SAVEDHASH="$(defaults read com.mrgray.AtoZ $HASHKEY)" 2> /dev/null; # check saved hash
 
-[[ "$HASH" == "$SAVEDHASH" ]] && say "$TARGET_NAME hashes match!" && exit 0
+[[ "$HASH" == "$SAVEDHASH" ]] && NOTIFY "$TARGET_NAME hashes match!" 0
 
-ssh -q 6 -C "[[ -d /Library/Frameworks/$WRAPPER_NAME ]]" && \
-  NOTIFY "Skipping $TARGET_NAME Hashes match, files exist, aborting" 0
+ssh -q 6 -C "[[ -d /Library/Frameworks/$WRAPPER_NAME ]]" && NOTIFY "Skipping $TARGET_NAME Hashes match, files exist, aborting" 0
 
-logger "Installing TARGET_NAME Framework onto device."
+NOTIFY "Installing TARGET_NAME Framework onto device."
 
 scp -r  "$CODESIGNING_FOLDER_PATH" 6:/Library/Frameworks 2>&1 | head -n1 | sed 's/ssh://;s/6\.local.*//g'
 
-[[ $? == 0 ]] && say "installed ${TARGET_NAME/#AtoZ/} framework on device"      \
-              || say "copy to device failed for ${TARGET_NAME/#AtoZ/}. $RES"
+[[ $? == 0 ]] && NOTIFY "installed ${TARGET_NAME/#AtoZ/} framework on device" 
+              || NOTIFY "copy to device failed for ${TARGET_NAME/#AtoZ/}." 58
 }
 
 #buildPlist="${PRODUCT_NAME}-Info.plist"
