@@ -34,13 +34,13 @@ GO_SIM_FWK() {
   NOTIFY "installed into Simulator Frameworks" 0
 }
 
-[[ ! -x "${EXE=${CODESIGNING_FOLDER_PATH}/${PROJECT_NAME}}" ]] && NOTIFY "Hmm, missing executable:$EXE"  36
+[[ ! -x "${EXE=${CODESIGNING_FOLDER_PATH}/${TARGET_NAME}}" ]] && NOTIFY "Hmm, missing executable:$EXE"  36
 [[ ! $(otool -L "${EXE:-/dev/null}") ]]                        && NOTIFY "otool verify failed!"          37
 
 [[ "${EFFECTIVE_PLATFORM_NAME}" =~ "mac"       ]]   && MAC_FW        || \
 [[          $WRAPPER_EXTENSION  != "framework" ]]   && GO_DEVICE_APP || \
-[[    $EFFECTIVE_PLATFORM_NAME  =~ "simulator"      &&   
-         "${WRAPPER_EXTENSION}" == "framework" ]]   && GO_SIM_FWK    || \
+[[    $EFFECTIVE_PLATFORM_NAME  =~ "simulator"      &&   \
+           "$WRAPPER_EXTENSION" == "framework" ]]   && GO_SIM_FWK    || \
 [[    $EFFECTIVE_PLATFORM_NAME  != "-iphoneos" ]]   && NOTIFY "dunno what to do" 0
 
      HASH=$(md5 -q "$EXE")
