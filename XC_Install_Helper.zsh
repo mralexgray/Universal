@@ -25,7 +25,7 @@ MAC_FW () {
 	
 		/usr/bin/rsync --delete --recursive --times -v --progress  --links "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR"
   
-      NOTIFY "RSYNC'd ${WRAPPED_NAME}" 0
+      NOTIFY "are SYNCed ${WRAPPED_NAME}" 0
 		}
 #  say "sybned framework" && exit 0
   #  /usr/bin/rsync --recursive --times -v --progress --links --stats "$PROD" "$USER_FWS"
