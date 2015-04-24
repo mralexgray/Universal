@@ -27,7 +27,6 @@ MAC_FW () {
   
       NOTIFY "are SYNCed ${WRAPPED_NAME} status $?" $? 
    }
-#  say "sybned framework" && exit 0
   #  /usr/bin/rsync --recursive --times -v --progress --links --stats "$PROD" "$USER_FWS"
 }
 
