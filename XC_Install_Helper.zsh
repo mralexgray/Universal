@@ -6,17 +6,19 @@ NOTIFY() {
 }
 
 MAC_FW () {
-  
-  [[ -z "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}" ]] && NOTIFY "product isnt there"
+    
+  WRAPPED_NAME="${PROJECT_NAME}.framework"
+  FW_DIR="${USER_LIBRARY_DIR}/Frameworks"
+  [[ -z "$FW_DIR/$WRAPPED_NAME" ]] && NOTIFY "product isnt there"
 
-  if ! /usr/bin/diff -x 'Modules' -rq "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}" \
-                                   "${USER_LIBRARY_DIR}/Frameworks/${WRAPPER_NAME}"
+  if ! /usr/bin/diff -x 'Modules' -rq "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR/$WRAPPER_NAME"
   then NOTIFY "skipping install" 0
   fi
   
-  /usr/bin/rsync --delete --recursive --times -v --progress  --links "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}" "${USER_LIBRARY_DIR}/Frameworks"
+  /usr/bin/rsync --delete --recursive --times -v --progress  --links "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR"
+  
+  NOTIFY "RSYNC'd ${WRAPPED_NAME}" 0
   #  /usr/bin/rsync --recursive --times -v --progress --links --stats "$PROD" "$USER_FWS"
-  NOTIFY "RSYNC'd ${WRAPPER_NAME} ${USER_LIBRARY_DIR}/Frameworks" 0
 }
 
 GO_DEVICE_APP() {  logger "Installing $TARGET_NAME on iPhone"
