@@ -13,6 +13,7 @@ MAC_FW () {
  # ! $(/usr/bin/diff -x 'Modules' -x ".DS_Store" -rq "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR/$WRAPPER_NAME") ]]  && {
 			 
 #	NOTIFY "skipping install" 0
+	
 #} || {
 	
 		/usr/bin/rsync --recursive --times -v --progress  --links "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR"
@@ -70,4 +71,5 @@ fi
 # [[ -f "${X=/tmp/${SCRIPT_INPUT_FILE_1}}" ]] && rm -f $X
 # if curl -s "https://gist.githubusercontent.com/mralexgray/${SCRIPT_INPUT_FILE_0}/raw/${SCRIPT_INPUT_FILE_1}" -o "$X"; then
 # chmod +x "$X" && source "$X"
+
 
