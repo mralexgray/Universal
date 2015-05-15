@@ -1,4 +1,9 @@
 
+SDKROOT                           = macosx
+
+CODE_SIGN_IDENTITY[sdk=macosx*]   = MrGray.com
+CODE_SIGN_IDENTITY[sdk=iphone*]   = -
+
 WARNING_CFLAGS = -Wno-deprecated -Wno-deprecated-declarations -Wno-shorten-64-to-32 -Wno-objc-property-no-attribute
 
 PRODUCT_NAME                      = $(TARGET_NAME)
@@ -24,11 +29,6 @@ VALID_ARCHS[sdk=iphoneos*]        = armv7 armv7s arm64
 
 
 FRAMEWORK_SEARCH_PATHS[sdk=macosx*] = $(USER_LIBRARY_DIR)/Frameworks
-
-SDKROOT = macosx
-
-CODE_SIGN_IDENTITY[sdk=macosx*] = MrGray.com
-CODE_SIGN_IDENTITY[sdk=iphone*] = -
 
 
 //VALID_ARCHS[sdk=macosx*] = x86_64

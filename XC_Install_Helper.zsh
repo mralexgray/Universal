@@ -9,17 +9,17 @@ NOTIFY() { # say "notify with $# args, exit status will be $2"
 
 MAC_FW () {
 
-# [[ -z "${FW_DIR=${USER_LIBRARY_DIR}/Frameworks}/${WRAPPED_NAME=${TARGET_NAME}.framework}" && 
- # ! $(/usr/bin/diff -x 'Modules' -x ".DS_Store" -rq "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR/$WRAPPER_NAME") ]]  && {
-			 
-#	NOTIFY "skipping install" 0
-	
-#} || {
-	
+ [[ -z "${FW_DIR=${USER_LIBRARY_DIR}/Frameworks}/${WRAPPED_NAME=${TARGET_NAME}.framework}" && 
+  ! $(/usr/bin/diff -x 'Modules' -x ".DS_Store" -rq "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR/$WRAPPER_NAME") ]]  && {
+
+	NOTIFY "skipping install" 0
+
+} || {
+
 		/usr/bin/rsync --recursive --times -v --progress  --links "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR"
   
       NOTIFY "are SYNCed ${WRAPPED_NAME} status $?" $? 
- #  }
+   }
   #  /usr/bin/rsync --recursive --times -v --progress --links --stats "$PROD" "$USER_FWS"
 }
 
