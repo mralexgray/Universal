@@ -1,5 +1,6 @@
 
 SDKROOT                           = macosx
+OTHER_LDFLAGS                     = -framework Foundation
 
 CODE_SIGN_IDENTITY[sdk=macosx*]   = MrGray.com
 CODE_SIGN_IDENTITY[sdk=iphone*]   = -
