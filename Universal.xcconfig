@@ -8,14 +8,14 @@ CODE_SIGN_IDENTITY[sdk=iphone*]   = -
 WARNING_CFLAGS = -Wno-deprecated -Wno-deprecated-declarations -Wno-shorten-64-to-32 -Wno-objc-property-no-attribute
 
 PRODUCT_NAME                      = $(TARGET_NAME)
-COPY_PHASE_STRIP                  = NO
-ONLY_ACTIVE_ARCH                  = YES
-DEAD_CODE_STRIPPING               = NO
-COMBINE_HIDPI_IMAGES              = YES
-CLANG_ENABLE_OBJC_ARC             = YES
 GCC_OPTIMIZATION_LEVEL            = 0
 GCC_C_LANGUAGE_STANDARD           = c11
+COPY_PHASE_STRIP                  = NO
+DEAD_CODE_STRIPPING               = NO
 ALWAYS_SEARCH_USER_PATHS          = NO
+ONLY_ACTIVE_ARCH                  = YES
+COMBINE_HIDPI_IMAGES              = YES
+CLANG_ENABLE_OBJC_ARC             = YES
 CLANG_ENABLE_MODULES              = YES
 
 SUPPORTED_PLATFORMS               = iphoneos iphonesimulator macosx
