@@ -8,19 +8,16 @@
 
 GITROOT="$(git root)"
 
-doACP() { read acp; [[ -n "$acp" ]] && git acp "$acp"; }
+doACP() { git status; echo "$@"; read acp; [[ -n "$acp" ]] && git acp "$acp"; }
 
 for x in $(git modules); do
 
   cd "$GITROOT/$x"
   if git dirty; then
-    git status
-    echo "ACP message for $(basename $GITROOT) submodule $x?"
-    doACP
+    doACP "ACP message for $(basename $GITROOT) submodule $x?"
   else
     echo "submodule $x IS NOT dirty!"
   fi
 done
 
-echo "\n\n\n ACP for main Repo, at $GITROOT"
-doACP
+doACP "\n\n\n ACP for main Repo, at $GITROOT"
