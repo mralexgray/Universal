@@ -20,4 +20,5 @@ for x in $(git modules); do
   fi
 done
 
+cd "$GITROOT
 doACP "\n\n\n ACP for main Repo, at $GITROOT"
