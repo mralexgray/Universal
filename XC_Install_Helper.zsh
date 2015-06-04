@@ -1,4 +1,6 @@
+#!/bin/sh
 
+[[ $TRAVIS ]] && exit 0
 
 NOTIFY() { # say "notify with $# args, exit status will be $2"
     
@@ -9,7 +11,7 @@ NOTIFY() { # say "notify with $# args, exit status will be $2"
 
 MAC_FW () {
 
- [[ -z "${FW_DIR=${USER_LIBRARY_DIR}/Frameworks}/${WRAPPED_NAME=${TARGET_NAME}.framework}" && 
+  [[ -z "${FW_DIR=${USER_LIBRARY_DIR}/Frameworks}/${WRAPPED_NAME=${TARGET_NAME}.framework}" &&
   ! $(/usr/bin/diff -x 'Modules' -x ".DS_Store" -rq "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR/$WRAPPER_NAME") ]]  && {
 
 	NOTIFY "skipping install" 0
@@ -29,6 +31,7 @@ GO_DEVICE_APP() {  logger "Installing $TARGET_NAME on iPhone"
             && say "installed ${TARGET_NAME/#AtoZ/} on device"    \
             || say "${TARGET_NAME/#AtoZ/} install failed"	
 }
+
 GO_SIM_FWK() {
     
   mkdir -p "${SIM_FWKS=/Users/$(whoami)/Library/Frameworks-Simulator}"
@@ -40,10 +43,11 @@ GO_SIM_FWK() {
 otool -L "$EXE"  || NOTIFY "otool verify failed!" 37
 
 
-if 	 [[ ! "$EFFECTIVE_PLATFORM_NAME" ]]; then MAC_FW
-elif [[      $WRAPPER_EXTENSION  != "framework" ]]; then GO_DEVICE_APP
-elif [[ $EFFECTIVE_PLATFORM_NAME  =~ "simulator"  &&  "$WRAPPER_EXTENSION" == "framework" ]]; then GO_SIM_FWK
-elif [[ $EFFECTIVE_PLATFORM_NAME  != "-iphoneos" ]]; then NOTIFY "dunno what to do" 0
+if 	 [[ ! "$EFFECTIVE_PLATFORM_NAME" ]];              then MAC_FW
+elif [[      $WRAPPER_EXTENSION  != "framework" ]];   then GO_DEVICE_APP
+elif [[ $EFFECTIVE_PLATFORM_NAME  =~ "simulator" \
+     &&      "$WRAPPER_EXTENSION" == "framework" ]];  then GO_SIM_FWK
+elif [[ $EFFECTIVE_PLATFORM_NAME  != "-iphoneos" ]];  then NOTIFY "dunno what to do" 0
 else
 
      HASH=$(md5 -q "$EXE")

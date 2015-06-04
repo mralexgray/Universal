@@ -8,7 +8,7 @@
 
 GITROOT="$(git root)"
 
-doACP() { git status; echo "$@"; read acp; [[ -n "$acp" ]] && git acp "$acp"; }
+doACP() { git status; git diff; echo "$@"; read acp; [[ -n "$acp" ]] && git acp "$acp"; }
 
 for x in $(git modules); do
 
