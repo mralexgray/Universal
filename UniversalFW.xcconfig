@@ -1,5 +1,5 @@
 
-
+#include "Universal.xcconfig"
 
             VERSIONING_SYSTEM = apple-generic
   DYLIB_COMPATIBILITY_VERSION = 1

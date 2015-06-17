@@ -5,8 +5,6 @@ OTHER_LDFLAGS                     = -framework Foundation
 CODE_SIGN_IDENTITY[sdk=macosx*]   = MrGray.com
 CODE_SIGN_IDENTITY[sdk=iphone*]   = -
 
-WARNING_CFLAGS = -Wno-deprecated -Wno-deprecated-declarations -Wno-shorten-64-to-32 -Wno-objc-property-no-attribute
-
 PRODUCT_NAME                      = $(TARGET_NAME)
 GCC_OPTIMIZATION_LEVEL            = 0
 GCC_C_LANGUAGE_STANDARD           = c11
@@ -25,11 +23,14 @@ ARCHS[sdk=iphonesimulator*]       = $(ARCHS_STANDARD_64_BIT)
 ARCHS[sdk=iphoneos*]              = arm64
 
 VALID_ARCHS[sdk=macosx*]          = x86_64
-VALID_ARCHS[sdk=iphonesimulator*] = i386 x86_64
-VALID_ARCHS[sdk=iphoneos*]        = armv7 armv7s arm64
+VALID_ARCHS[sdk=iphonesimulator*] = x86_64 i386
+VALID_ARCHS[sdk=iphoneos*]        = arm64 armv7 armv7s
 
 
 FRAMEWORK_SEARCH_PATHS[sdk=macosx*] = $(USER_LIBRARY_DIR)/Frameworks
+CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES
+
+WARNING_CFLAGS = -Wno-deprecated -Wno-deprecated-declarations -Wno-shorten-64-to-32 -Wno-objc-property-no-attribute
 
 
 //VALID_ARCHS[sdk=macosx*] = x86_64

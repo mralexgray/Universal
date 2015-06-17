@@ -12,7 +12,7 @@ NOTIFY() { # say "notify with $# args, exit status will be $2"
 MAC_FW () {
 
   [[ -z "${FW_DIR=${USER_LIBRARY_DIR}/Frameworks}/${WRAPPED_NAME=${TARGET_NAME}.framework}" &&
-  ! $(/usr/bin/diff -x 'Modules' -x ".DS_Store" -rq "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR/$WRAPPER_NAME") ]]  && {
+      ! $(/usr/bin/diff -x 'Modules' -x ".DS_Store" -rq "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR/$WRAPPER_NAME") ]] && {
 
 	NOTIFY "skipping install" 0
 
@@ -52,7 +52,7 @@ else
 
      HASH=$(md5 -q "$EXE")
   HASHKEY="$TARGET_NAME${EFFECTIVE_PLATFORM_NAME:--$PLATFORM_NAME}"
-SAVEDHASH="$(defaults read com.mrgray.AtoZ $HASHKEY)" 2> /dev/null
+SAVEDHASH="$(defaults read com.mrgray.AtoZ $HASHKEY)" &> /dev/null
 # check saved hash
 
 [[ "$HASH" == "$SAVEDHASH" ]] && NOTIFY "$TARGET_NAME hashes match!" 0
