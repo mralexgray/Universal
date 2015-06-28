@@ -12,7 +12,8 @@ GITROOT="$(git root)"
 
 doACP() {
 
-  echo "\n\nmoving to $1\n";
+  set -x
+#  echo "\n\nmoving to $1\n";
   cd "$1"
   git status; # git diff;
   read s
@@ -27,9 +28,7 @@ echo "git root is:\n\n$GITROOT\n\ndirtymods are:\n\n$(git dirtysubs)."
 
 read z
 
-for x in $(git dirtysubs); {
-  doACP "${GITROOT}/$x"
-}
+for x in $(git dirtysubs); { doACP "${GITROOT}/$x" }
 
 doACP "$GITROOT"
 
