@@ -1,5 +1,8 @@
 #!/bin/sh
 
+RSYNC=/usr/local/bin/rsync
+ERR=
+
 [[ $TRAVIS ]] && exit 0
 
 NOTIFY() { # say "notify with $# args, exit status will be $2"
@@ -11,7 +14,7 @@ NOTIFY() { # say "notify with $# args, exit status will be $2"
 
 MAC_FW () {
 
-  [[ -z "${FW_DIR=${USER_LIBRARY_DIR}/Frameworks}/${WRAPPED_NAME=${TARGET_NAME}.framework}" &&
+  [[ -d "${FW_DIR=${USER_LIBRARY_DIR}/Frameworks}/${WRAPPED_NAME=${TARGET_NAME}.framework}" &&
       ! $(/usr/bin/diff -x 'Modules' -x ".DS_Store" -rq "${BUILT_PRODUCTS_DIR}/$WRAPPED_NAME" "$FW_DIR/$WRAPPER_NAME") ]] && {
 
 	NOTIFY "skipping install" 0
