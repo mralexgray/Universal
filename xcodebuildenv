@@ -1,0 +1,65 @@
+#!/usr/bin/env zsh
+
+[[ "$1" =~ "(-h|-help|--h|--help)" ]] && { echo "Sources xcode env from current folder.  USAGE: . \$($(basename $0))"; exit 0 }
+
+x="$(pwd)"
+PROJ=
+
+while [ -d "$x" -a "$x" != "/" ]; do
+
+  PROJ="$(ls -d $x/*.xc*(/) | head -n1)"
+  x="${x:t}"
+  [[ -z "$PROJ" ]] && >&2 echo "Project: $PROJ" || break
+done
+
+SCHEME="${1:-${${x:a}:t}}" # if $1 use that as scheme, otherise use the current directory name
+
+#WHERE="$(pwd)"
+# look for Xcode proj/workspace in current dir, go up until found
+
+#FINDIT() { find "$1" -maxdepth 1 | egrep '\.xcodeproj$' }  # '\.xcodeproj$|\.xcworkspace$' }
+
+#while [ -d "$WHERE"  -a -z "${PROJ=$(FINDIT $WHERE)}" ]; do WHERE="$WHERE/.."; done
+
+>&2 echo "PROJ is '$PROJ'. Scheme is '$SCHEME'.  Working dir is '$x'.  Working...."
+
+# exit 0
+
+IFS='
+'
+
+# TO_EVAL="$(xcodebuild -showBuildSettings -scheme $SCHEME | grep -v 'Build settings') 2> /dev/null | sed '1d;s/^ *//;s/\"/\\\"/g;s/ = \(.*\)/=\"\1\"/;s/ = /=/;s/UID.*//'| grep '=' | grep -v GID)"
+
+for x in $(xcodebuild -showBuildSettings -scheme $SCHEME | grep -v 'Build settings'); {
+
+   echo "$x" |sed 's/^ *//;s/\"/\\\"/g;s/ = \(.*\)/=\"\1\"/;s/ = /=/;s/UID.*//'
+
+}
+
+
+# echo "sourcing... ${#${TO_EVAL}} items."
+
+# "\n\n$(echo ${TO_EVAL[#]}|wc -l)"
+
+# "
+
+# for x in $TO_EVAL; {
+ 
+ # echo "exporting $x"
+
+# }
+
+# while read x; do
+
+  # echo "exporting $x"
+  # [[ -z "$x" ]] || export "$x"
+
+# done <<< "$TO_EVAL"
+
+
+#TMPFILE="/tmp/xcodebuild-env.tmp"
+# SCRIPT=`grealpath $0`
+# SCRIPTPATH=`dirname $SCRIPT`
+# -configuration Debug
+
+#ls ./*(.xcodeproj|.xcworkspace) 1> /dev/null
