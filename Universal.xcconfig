@@ -1,5 +1,5 @@
 
-SDKROOT                             = macosx
+SDKROOT                             = macosx10.10
 SUPPORTED_PLATFORMS                 = iphoneos iphonesimulator macosx
 
 ARCHS[sdk=macosx*]                  = $(ARCHS_STANDARD_64_BIT)
