@@ -11,6 +11,7 @@ VALID_ARCHS[sdk=iphonesimulator*]   = x86_64 i386
 VALID_ARCHS[sdk=iphoneos*]          = arm64 armv7 armv7s
 
 FRAMEWORK_SEARCH_PATHS[sdk=macosx*] = $(USER_LIBRARY_DIR)/Frameworks
+HEADER_SEARCH_PATHS = $(inherited) /usr/local/include
 
 OTHER_LDFLAGS                       = -framework Foundation
 
