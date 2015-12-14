@@ -2,6 +2,9 @@
 SDKROOT                             = macosx10.10
 SUPPORTED_PLATFORMS                 = iphoneos iphonesimulator macosx
 
+CODE_SIGN_IDENTITY[sdk=iphone*]     = iPhone Developer: alex@mrgray.com (938J34NGN8)
+CODE_SIGN_IDENTITY[sdk=macosx*]     = Mac Developer: alex@mrgray.com (938J34NGN8)
+
 ARCHS[sdk=macosx*]                  = $(ARCHS_STANDARD_64_BIT)
 ARCHS[sdk=iphonesimulator*]         = $(ARCHS_STANDARD_64_BIT)
 ARCHS[sdk=iphoneos*]                = arm64
